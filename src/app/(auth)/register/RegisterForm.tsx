@@ -1,16 +1,16 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { Card, CardBody, CardHeader } from '@nextui-org/card'
 import { GiPadlock } from 'react-icons/gi'
 import { Input } from '@nextui-org/input'
 import { Button } from '@nextui-org/button'
-import { registerSchema, RegisterSchema } from '@/lib/schemas/registerSchema'
+import { RegisterSchema } from '@/lib/schemas/registerSchema'
 import { registerUser } from '@/app/actions/authActions'
+import { ZodIssue } from 'zod'
 
 export default function RegisterForm () {
-  const { register, handleSubmit, formState: { errors, isValid } } = useForm<RegisterSchema>(
+  const { register, handleSubmit, setError, formState: { errors, isValid, isSubmitting } } = useForm<RegisterSchema>(
     {
       // resolver: zodResolver(registerSchema),
       mode: 'onTouched',
@@ -18,7 +18,31 @@ export default function RegisterForm () {
 
   const onSubmit = async (data: RegisterSchema) => {
     const result = await registerUser(data)
-    console.log(result)
+
+    if (result.status === 'success') {
+      console.log('User registered successfully')
+    } else {
+      if (Array.isArray(result.error)) {
+        result.error.forEach((error: ZodIssue) => {
+          const fieldName = error.path.join(
+            '.') as 'name' | 'email' | 'password'
+          setError(fieldName, {
+            message: error.message,
+          })
+        })
+      } else {
+        setError('root.serverError', { message: result.error })
+      }
+      // if (Array.isArray(result.error)) {
+      //   result.error.forEach((error: ZodIssue) => {
+      //     const fieldName = error.path.join('.')
+      //     setError(fieldName as keyof RegisterSchema, {
+      //       message: error.message,
+      //     })
+      //   })
+      // }
+    }
+    console.log({ result })
   }
   return (
     <Card className="w-2/5 mx-auto">
@@ -62,7 +86,13 @@ export default function RegisterForm () {
               isInvalid={!!errors.password} // turns object into boolean
               errorMessage={errors.password?.message}
             />
-            <Button isDisabled={!isValid} fullWidth color="secondary"
+            {errors.root?.serverError && (
+              <p className="text-danger text-sm">
+                {errors.root.serverError.message}
+              </p>
+            )}
+            <Button isLoading={isSubmitting} isDisabled={!isValid} fullWidth
+                    color="secondary"
                     type="submit">Submit</Button>
           </div>
         </form>
