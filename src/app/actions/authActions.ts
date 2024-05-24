@@ -6,11 +6,11 @@ import { prisma } from '@/lib/prisma'
 import { ActionResult } from '@/types'
 import { User } from '@prisma/client'
 import { LoginSchema } from '@/lib/schemas/loginSchema'
-import { signIn, signOut } from '@/auth'
+import { auth, signIn, signOut } from '@/auth'
 import { AuthError } from 'next-auth'
 
-export async function signOutUser() {
-  await signOut({redirectTo: '/'})
+export async function signOutUser () {
+  await signOut({ redirectTo: '/' })
 }
 
 export async function signInUser (data: LoginSchema): Promise<ActionResult<string>> {
@@ -73,4 +73,15 @@ export async function getUserByEmail (email: string): Promise<User | null> {
 
 export async function getUserById (id: string): Promise<User | null> {
   return prisma.user.findUnique({ where: { id } })
+}
+
+export async function getAuthUserId () {
+  const session = await auth()
+  const userId = session?.user?.id
+
+  if (!userId) {
+    throw new Error('Unauthorized')
+  }
+
+  return userId
 }

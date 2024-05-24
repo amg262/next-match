@@ -17,7 +17,7 @@ export default function Error ({
     <div className="flex items-center justify-center vertical-center">
       <Card className="w-2/5 mx-auto">
         <CardHeader className="flex flex-col items-center justify-center">
-          <div className="flex flex-row gap-2 items-center text-secondary">
+          <div className="flex flex-rowk gap-2 items-center text-secondary">
             <BiSolidErrorCircle size={30}/>
             <h1 className="text-3xl font-semibold">Error</h1>
           </div>
