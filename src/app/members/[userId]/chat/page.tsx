@@ -2,7 +2,7 @@ import { getMemberByUserId } from '@/app/actions/memberActions'
 import { notFound } from 'next/navigation'
 import { CardBody, CardHeader, Divider } from '@nextui-org/react'
 
-export default async function MemberDetailPage ({ params }: {
+export default async function ChatPage ({ params }: {
   params: { userId: string }
 }) {
   const member = await getMemberByUserId(params.userId)
@@ -14,11 +14,11 @@ export default async function MemberDetailPage ({ params }: {
   return (
     <div>
       <CardHeader className="text-2xl font-semibold text-secondary">
-        Profile
+        Chat
       </CardHeader>
       <Divider/>
       <CardBody>
-        {member.description || 'No description'}
+        Chat goes here
       </CardBody>
     </div>
   )
