@@ -5,6 +5,7 @@ import { CardBody, CardHeader, Divider, Image } from '@nextui-org/react'
 export default async function PhotosPage ({ params }: {
   params: { userId: string }
 }) {
+
   const photos = await getMemberPhotosByUserId(params.userId)
   if (!photos) {
     return notFound()

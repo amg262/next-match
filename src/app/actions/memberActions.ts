@@ -16,6 +16,7 @@ export async function getMembers () {
       { where: { NOT: { userId: session.user.id } } })
   } catch (error) {
     console.error(error)
+    throw new Error('Just testing...')
   }
 }
 
