@@ -14,6 +14,7 @@ export default function LikeButton ({ targetId, hasLiked }: Props) {
   async function toggleLike () {
     try {
       await toggleLikeMember(targetId, hasLiked)
+      console.log('like toggled', targetId, hasLiked)
       router.refresh()
     } catch (error) {
       console.error(error)
