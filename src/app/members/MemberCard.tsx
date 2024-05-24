@@ -6,9 +6,12 @@ import LikeButton from '@/components/LikeButton'
 
 type Props = {
   member: Member
+  likeIds: string[]
 }
 
-export function MemberCard ({ member }: Props) {
+export function MemberCard ({ member, likeIds }: Props) {
+  const hasLiked = likeIds.includes(member.userId)
+
   return (
     <Card fullWidth as={Link} href={`/members/${member.userId}`} isPressable>
       <Image
