@@ -7,7 +7,7 @@ import { Input } from '@nextui-org/input'
 import { Button } from '@nextui-org/button'
 import { RegisterSchema } from '@/lib/schemas/registerSchema'
 import { registerUser } from '@/app/actions/authActions'
-import { ZodIssue } from 'zod'
+import { handleFormServerErrors } from '@/lib/util'
 
 export default function RegisterForm () {
   const { register, handleSubmit, setError, formState: { errors, isValid, isSubmitting } } = useForm<RegisterSchema>(
@@ -22,25 +22,7 @@ export default function RegisterForm () {
     if (result.status === 'success') {
       console.log('User registered successfully')
     } else {
-      if (Array.isArray(result.error)) {
-        result.error.forEach((error: ZodIssue) => {
-          const fieldName = error.path.join(
-            '.') as 'name' | 'email' | 'password'
-          setError(fieldName, {
-            message: error.message,
-          })
-        })
-      } else {
-        setError('root.serverError', { message: result.error })
-      }
-      // if (Array.isArray(result.error)) {
-      //   result.error.forEach((error: ZodIssue) => {
-      //     const fieldName = error.path.join('.')
-      //     setError(fieldName as keyof RegisterSchema, {
-      //       message: error.message,
-      //     })
-      //   })
-      // }
+      handleFormServerErrors(result, setError)
     }
     console.log({ result })
   }
