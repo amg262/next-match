@@ -4,9 +4,11 @@ import Link from 'next/link'
 import Navlink from '@/components/nav/Navlink'
 import { auth } from '@/auth'
 import UserMenu from '@/components/nav/UserMenu'
+import { getUserInfoForNav } from '@/app/actions/userActions'
 
 export default async function TopNav () {
-  const session = await auth();
+  const session = await auth()
+  const userInfo = session?.user && await getUserInfoForNav()
   return (
     <Navbar
       maxWidth="xl"
@@ -33,7 +35,7 @@ export default async function TopNav () {
       </NavbarContent>
       <NavbarContent justify="end">
         {session?.user ? (
-          <UserMenu user={session.user}/>
+          <UserMenu userInfo={userInfo}/>
         ) : (
           <>
             <Button as={Link} href="/login" variant="bordered"
