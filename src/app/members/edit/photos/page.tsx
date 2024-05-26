@@ -4,6 +4,8 @@ import {
   getMemberByUserId,
   getMemberPhotosByUserId,
 } from '@/app/actions/memberActions'
+import StarButton from '@/components/StarButton'
+import DeleteButton from '@/components/DeleteButton'
 
 export default async function PhotosPage () {
   const userId = await getAuthUserId()
@@ -27,6 +29,12 @@ export default async function PhotosPage () {
                   src={photo.url}
                   alt="Image of user"
                 />
+                <div className="absolute top-3 left-3 z-50">
+                  <StarButton selected={false} loading={false}/>
+                </div>
+                <div className="absolute top-3 right-3 z-50">
+                  <DeleteButton loading={false}/>
+                </div>
               </div>
             ))}
           </div>
