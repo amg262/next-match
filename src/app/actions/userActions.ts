@@ -29,3 +29,23 @@ export async function updateMemberProfile (data: MemberEditSchema): Promise<Acti
     return { status: 'error', error: 'Failed to update member profile' }
   }
 }
+
+export async function addImage (url: string, publicId: string) {
+  try {
+    const userId = await getAuthUserId()
+    const member = await prisma.member.update({
+      where: { userId },
+      data: {
+        photos: {
+          create: [
+            { url, publicId },
+          ],
+        },
+      },
+    })
+    return { status: 'success', data: member }
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
