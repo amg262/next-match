@@ -3,7 +3,7 @@
 import { Member } from '@prisma/client'
 import { Card, CardFooter, Divider, Image } from '@nextui-org/react'
 import { CardBody } from '@nextui-org/card'
-import { calculateAge } from '@/lib/util'
+import { calculateAge, transformImageUrl } from '@/lib/util'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Button } from '@nextui-org/button'
@@ -18,7 +18,7 @@ export default function MemberSidebar ({ member, navLinks }: Props) {
   return (
     <Card className="w-full mt-10 items-center h-[80vh]">
       <Image
-        src={member.image || '/images/user.png'}
+        src={transformImageUrl(member.image) || '/images/user.png'}
         alt={member.name || 'User profile image'}
         width={200}
         height={200}

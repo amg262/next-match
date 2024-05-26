@@ -10,6 +10,7 @@ import {
 } from '@nextui-org/react'
 import Link from 'next/link'
 import { signOutUser } from '@/app/actions/authActions'
+import { transformImageUrl } from '@/lib/util'
 
 type Props = {
   userInfo: {
@@ -29,7 +30,7 @@ export default function UserMenu ({ userInfo }: Props) {
           name={userInfo?.name || 'user'}
           size="sm"
           alt={userInfo?.name || 'user'}
-          src={userInfo?.image || '/images/user.png'}/>
+          src={transformImageUrl(userInfo?.image) || '/images/user.png'}/>
       </DropdownTrigger>
       <DropdownMenu variant="flat" aria-label="User actions menu">
         <DropdownSection showDivider>
