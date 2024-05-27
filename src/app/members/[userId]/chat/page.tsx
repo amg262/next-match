@@ -4,6 +4,7 @@ import CardInnerWrapper from '@/components/CardInnerWrapper'
 import ChatForm from '@/app/members/[userId]/chat/ChatForm'
 import { getMessageThread } from '@/app/actions/messageActions'
 import { getAuthUserId } from '@/app/actions/authActions'
+import MessageBox from '@/app/members/[userId]/chat/MessageBox'
 
 export default async function ChatPage ({ params }: {
   params: { userId: string }
@@ -16,9 +17,9 @@ export default async function ChatPage ({ params }: {
       {messages.length === 0 ? 'No messages to display' : (
         <div>
           {messages.map(message => (
-            <div key={message.id}>
-              {message.text}
-            </div>))}
+            <MessageBox key={message.id} message={message}
+                        currentUserId={userId}/>
+          ))}
         </div>
       )}
     </div>
