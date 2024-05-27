@@ -1,9 +1,13 @@
-import { differenceInYears } from 'date-fns'
+import { differenceInYears, format } from 'date-fns'
 import { FieldValues, Path, UseFormSetError } from 'react-hook-form'
 import { ZodIssue } from 'zod'
 
 export function calculateAge (dob: Date) {
   return differenceInYears(new Date(), dob)
+}
+
+export function formatShortDateTime (date: Date) {
+  return format(date, 'MMM d, yyyy h:mm a')
 }
 
 export function handleFormServerErrors<TFieldValues extends FieldValues> (
@@ -32,9 +36,8 @@ export function transformImageUrl (imageUrl?: string | null) {
   }
 
   const uploadIndex = imageUrl.indexOf('/upload/') + '/upload/'.length
+  const transformation = 'c_fill,w_300_300,g_faces/'
 
-  const transformation = 'c_fill,w_300_300,g_faces/';
-
-  return `${imageUrl.slice(0, uploadIndex)}${transformation}${imageUrl.slice(uploadIndex)}`
-
+  return `${imageUrl.slice(0, uploadIndex)}${transformation}${imageUrl.slice(
+    uploadIndex)}`
 }

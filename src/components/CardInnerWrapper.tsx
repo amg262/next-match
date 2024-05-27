@@ -8,7 +8,7 @@ type Props = {
 }
 export default function CardInnerWrapper ({ header, body, footer }: Props) {
   return (
-    <div>
+    <>
       <CardHeader>
         {typeof header === 'string' ? (
           <div className="text-2xl font-semibold text-secondary">
@@ -27,6 +27,6 @@ export default function CardInnerWrapper ({ header, body, footer }: Props) {
           {footer}
         </CardFooter>
       )}
-    </div>
+    </>
   )
 }

@@ -9,7 +9,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (token.sub && session.user) {
         session.user.id = token.sub
       }
-      console.log(token)
+      // console.log(token)
       console.log(session)
       return session
     },
