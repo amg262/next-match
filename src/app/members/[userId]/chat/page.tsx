@@ -1,6 +1,7 @@
 import { getMemberByUserId } from '@/app/actions/memberActions'
 import { notFound } from 'next/navigation'
-import { CardBody, CardHeader, Divider } from '@nextui-org/react'
+import CardInnerWrapper from '@/components/CardInnerWrapper'
+import ChatForm from '@/app/members/[userId]/chat/ChatForm'
 
 export default async function ChatPage ({ params }: {
   params: { userId: string }
@@ -12,14 +13,9 @@ export default async function ChatPage ({ params }: {
   }
 
   return (
-    <div>
-      <CardHeader className="text-2xl font-semibold text-secondary">
-        Chat
-      </CardHeader>
-      <Divider/>
-      <CardBody>
-        Chat goes here
-      </CardBody>
-    </div>
+    <CardInnerWrapper header="Profile"
+                      body={<div>Chat goes here</div>}
+                      footer={<div>{<ChatForm/>}</div>}
+    />
   )
 }
