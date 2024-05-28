@@ -16,6 +16,7 @@ import { Card } from '@nextui-org/card'
 import { Button } from '@nextui-org/button'
 import { AiFillDelete } from 'react-icons/ai'
 import { deleteMessage } from '@/app/actions/messageActions'
+import { truncateString } from '@/lib/util'
 
 type Props = {
   messages: MessageDto[]
@@ -71,7 +72,7 @@ export default function MessageTable ({ messages }: Props) {
         case 'text':
           return (
             <div className={`truncate`}>
-              {cellValue}
+              {truncateString(cellValue, 80)}
             </div>
           )
         case 'createdAt':
@@ -95,7 +96,10 @@ export default function MessageTable ({ messages }: Props) {
              onRowAction={(key) => {handleRowSelect(key)}}>
         <TableHeader columns={columns}>
           {(column) =>
-            <TableColumn key={column.key}>{column.label}</TableColumn>}
+            <TableColumn key={column.key}
+                         width={column.key === 'text' ? '50%' : undefined}>
+              {column.label}
+            </TableColumn>}
         </TableHeader>
         <TableBody items={messages}
                    emptyContent="No messages for this container">
