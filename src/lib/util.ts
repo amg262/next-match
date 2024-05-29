@@ -42,7 +42,7 @@ export function transformImageUrl (imageUrl?: string | null) {
     uploadIndex)}`
 }
 
-export function truncateString (text?: string | null, num : number = 50) {
+export function truncateString (text?: string | null, num: number = 50) {
   if (!text) {
     return null
   }
@@ -52,4 +52,8 @@ export function truncateString (text?: string | null, num : number = 50) {
   } else {
     return text.slice(0, num) + '...'
   }
+}
+
+export function createChatId (a: string, b: string) {
+  return a > b ? `${b}-${a}` : `${a}-${b}`
 }
