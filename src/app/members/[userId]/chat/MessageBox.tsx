@@ -19,7 +19,7 @@ export default function MessageBox ({ message, currentUserId }: Props) {
       messageEndRef.current.scrollIntoView({ behavior: 'smooth' })
     }
   }, [messageEndRef])
-  const renderAvater = () => (
+  const renderAvatar = () => (
     <Avatar
       name={message.senderName}
       className="self-end"
@@ -68,9 +68,9 @@ export default function MessageBox ({ message, currentUserId }: Props) {
         'justify-end text-right': isCurrentUserSender,
         'justify-start': !isCurrentUserSender,
       })}>
-        {!isCurrentUserSender && renderAvater()}
+        {!isCurrentUserSender && renderAvatar()}
         {renderMessageContent()}
-        {isCurrentUserSender && renderAvater()}
+        {isCurrentUserSender && renderAvatar()}
       </div>
       <div ref={messageEndRef}/>
     </div>

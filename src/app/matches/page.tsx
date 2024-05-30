@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
-export default function MatchesPage() {
+export default function MatchesPage () {
   return (
-      <div>Matches Page</div>
-  );
+    <div>Matches Page</div>
+  )
 }
