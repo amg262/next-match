@@ -2,7 +2,6 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import {
-  Avatar,
   Table,
   TableBody,
   TableCell,
@@ -17,6 +16,7 @@ import { Button } from '@nextui-org/button'
 import { AiFillDelete } from 'react-icons/ai'
 import { deleteMessage } from '@/app/actions/messageActions'
 import { truncateString } from '@/lib/util'
+import PresenceAvatar from '@/components/PresenceAvatar'
 
 type Props = {
   messages: MessageDto[]
@@ -64,9 +64,11 @@ export default function MessageTable ({ messages }: Props) {
           return (
             <div
               className="flex items-center gap-2 cursor-pointer">
-              <Avatar alt="image of memeber" src={(isOutbox
-                ? item.recipientImage
-                : item.senderImage) || '/images/user.png'}/>
+              <PresenceAvatar
+                userId={isOutbox ? item.recipientId : item.senderId}
+                src={isOutbox ? item.recipientImage : item.senderImage}
+              />
+              <span>{cellValue}</span>
             </div>
           )
         case 'text':

@@ -42,7 +42,7 @@ export default function MessageBox ({ message, currentUserId }: Props) {
       {message.dateRead && message.recipientId === currentUserId ? (
         <span
           className="text-xs text-black text-italic">(Read {timeAgo(
-          message.dateRead)})</span>
+          message.dateRead) } )</span>
       ) : (
         <div></div>
       )}
