@@ -2,9 +2,9 @@
 
 import { MessageDto } from '@/types'
 import clsx from 'clsx'
-import { Avatar } from '@nextui-org/react'
 import { timeAgo, transformImageUrl } from '@/lib/util'
 import { useEffect, useRef } from 'react'
+import PresenceAvatar from '@/components/PresenceAvatar'
 
 type Props = {
   message: MessageDto
@@ -20,11 +20,12 @@ export default function MessageBox ({ message, currentUserId }: Props) {
     }
   }, [messageEndRef])
   const renderAvatar = () => (
-    <Avatar
-      name={message.senderName}
-      className="self-end"
-      src={transformImageUrl(message.senderImage) || '/images/user.png'}
-    />
+    <div className="self-end">
+      <PresenceAvatar
+        userId={message.senderId}
+        src={transformImageUrl(message.senderImage) || '/images/user.png'}
+      />
+    </div>
   )
 
   const messageContentClasses = clsx(
@@ -42,7 +43,7 @@ export default function MessageBox ({ message, currentUserId }: Props) {
       {message.dateRead && message.recipientId === currentUserId ? (
         <span
           className="text-xs text-black text-italic">(Read {timeAgo(
-          message.dateRead) } )</span>
+          message.dateRead)} )</span>
       ) : (
         <div></div>
       )}
