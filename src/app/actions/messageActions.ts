@@ -60,7 +60,7 @@ export async function getMessageThread (recipientId: string) {
         ],
       },
       orderBy: {
-        createdAt: 'asc',
+        created: 'asc',
       },
       select: messageSelect,
     })
@@ -106,7 +106,7 @@ export async function getMessagesByContainer (container: string) {
     const messages = await prisma.message.findMany({
       where: conditions,
       orderBy: {
-        createdAt: 'desc',
+        created: 'desc',
       },
       select: messageSelect,
     })
@@ -168,7 +168,7 @@ export async function deleteMessage (messageId: string, isOutbox: boolean) {
 const messageSelect = {
   id: true,
   text: true,
-  createdAt: true,
+  created: true,
   dateRead: true,
   sender: {
     select: {

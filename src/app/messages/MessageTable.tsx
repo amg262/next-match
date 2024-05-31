@@ -35,7 +35,7 @@ export default function MessageTable ({ messages }: Props) {
         : 'Sender',
     },
     { key: 'text', label: 'Message' },
-    { key: 'createdAt', label: isOutbox ? 'Date Sent' : 'Date Received' },
+    { key: 'created', label: isOutbox ? 'Date Sent' : 'Date Received' },
     { key: 'actions', label: 'Actions' },
   ]
 
@@ -77,7 +77,7 @@ export default function MessageTable ({ messages }: Props) {
               {truncateString(cellValue, 80)}
             </div>
           )
-        case 'createdAt':
+        case 'created':
           return cellValue
         default:
           return (

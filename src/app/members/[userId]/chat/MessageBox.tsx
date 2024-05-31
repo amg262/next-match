@@ -49,7 +49,7 @@ export default function MessageBox ({ message, currentUserId }: Props) {
       <div className="flex">
         <span
           className="text-sm font-semibold text-gray-900">{message.senderName}</span>
-        <span className="text-sm text-gray-500 ml-2">{message.createdAt}</span>
+        <span className="text-sm text-gray-500 ml-2">{message.created}</span>
       </div>
     </div>
 

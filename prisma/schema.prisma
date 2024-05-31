@@ -35,8 +35,6 @@ model User {
   image         String?
   accounts      Account[]
   member        Member?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
 }
 
 model Member {
@@ -79,10 +77,9 @@ model Like {
 }
 
 model Message {
-  id        String   @id @default(cuid())
-  text      String
-  createdAt DateTime @default(now())
-
+  id               String    @id @default(cuid())
+  text             String
+  created          DateTime  @default(now())
   senderId         String?
   recipientId      String?
   sender           Member?   @relation("sender", fields: [senderId], references: [userId], onDelete: SetNull)
