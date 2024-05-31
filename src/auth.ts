@@ -3,20 +3,27 @@ import { PrismaAdapter } from '@auth/prisma-adapter'
 import authConfig from './auth.config'
 import { prisma } from '@/lib/prisma'
 
+/**
+ * Configure NextAuth with Prisma adapter and custom callbacks.
+ *
+ * @returns {Object} - The configured NextAuth handlers, auth, signIn, and signOut functions.
+ */
 export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
-    async session({token, session}) {
+    /**
+     * Callback to handle session creation and modification.
+     *
+     * @param {Object} token - The token object containing user information.
+     * @param {Object} session - The session object containing session data.
+     * @returns {Object} - The modified session object.
+     */
+    async session ({ token, session }) {
       if (token.sub && session.user) {
         session.user.id = token.sub
       }
-      // console.log(token)
       console.log(session)
       return session
     },
-    // async jwt ({ token }) {
-    //   console.log(token)
-    //   return token
-    // },
   },
   adapter: PrismaAdapter(prisma),
   session: { strategy: 'jwt' },
