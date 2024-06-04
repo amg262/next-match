@@ -32,6 +32,8 @@ export async function createMessage (
 
     await pusherServer.trigger(createChatId(userId, recipientId), 'message:new',
       messageDto)
+    await pusherServer.trigger(`private-${recipientId}`, 'message:new',
+      messageDto)
 
     return { status: 'success', data: messageDto }
   } catch (error) {

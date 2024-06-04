@@ -1,6 +1,5 @@
 'use client'
 
-import { useRouter, useSearchParams } from 'next/navigation'
 import {
   Table,
   TableBody,
@@ -10,92 +9,24 @@ import {
   TableRow,
 } from '@nextui-org/react'
 import { MessageDto } from '@/types'
-import { Key, useCallback, useState } from 'react'
 import { Card } from '@nextui-org/card'
-import { Button } from '@nextui-org/button'
-import { AiFillDelete } from 'react-icons/ai'
-import { deleteMessage } from '@/app/actions/messageActions'
-import { truncateString } from '@/lib/util'
-import PresenceAvatar from '@/components/PresenceAvatar'
+import { MessageTableCell } from '@/app/messages/MessageTableCell'
+import { useMessages } from '@/hooks/useMessages'
 
 type Props = {
-  messages: MessageDto[]
+  initialMessages: MessageDto[]
 
 }
-export default function MessageTable ({ messages }: Props) {
-  const searchParams = useSearchParams()
-  const router = useRouter()
-  const isOutbox = searchParams.get('container') === 'outbox'
-  const [isDeleting, setDeleting] = useState({ id: '', loading: false })
-
-  const columns = [
-    {
-      key: isOutbox ? 'recipientName' : 'senderName', label: isOutbox
-        ? 'Recipient'
-        : 'Sender',
-    },
-    { key: 'text', label: 'Message' },
-    { key: 'created', label: isOutbox ? 'Date Sent' : 'Date Received' },
-    { key: 'actions', label: 'Actions' },
-  ]
-
-  const handleDeleteMessage = useCallback(async (message: MessageDto) => {
-    setDeleting({ id: message.id, loading: true })
-    await deleteMessage(message.id, isOutbox)
-    router.refresh()
-    setDeleting({ id: '', loading: false })
-  }, [isOutbox, router])
-
-  const handleRowSelect = (key: Key) => {
-    const message = messages.find((m) => m.id === key)
-    const url = isOutbox
-      ? `/members/${message?.recipientId}`
-      : `/members/${message?.senderId}`
-    router.push(url + '/chat')
-  }
-
-  const renderCell = useCallback(
-    (item: MessageDto, columnKey: keyof MessageDto) => {
-      const cellValue = item[columnKey]
-
-      switch (columnKey) {
-        case 'recipientName':
-        case 'senderName':
-          return (
-            <div
-              className="flex items-center gap-2 cursor-pointer">
-              <PresenceAvatar
-                userId={isOutbox ? item.recipientId : item.senderId}
-                src={isOutbox ? item.recipientImage : item.senderImage}
-              />
-              <span>{cellValue}</span>
-            </div>
-          )
-        case 'text':
-          return (
-            <div className={`truncate`}>
-              {truncateString(cellValue, 80)}
-            </div>
-          )
-        case 'created':
-          return cellValue
-        default:
-          return (
-            <Button isIconOnly variant="light"
-                    onClick={() => handleDeleteMessage(item)}
-                    isLoading={isDeleting.id === item.id && isDeleting.loading}>
-              <AiFillDelete size={24} className="text-danger"/>
-            </Button>
-          )
-      }
-    }, [handleDeleteMessage, isDeleting.id, isDeleting.loading, isOutbox])
+export default function MessageTable ({ initialMessages }: Props) {
+  const { isOutbox, isDeleting, deleteMessage, columns, selectRow, messages } = useMessages(
+    initialMessages)
 
   return (
     <Card className="flex flex-col gap-3 h-[80vh] overflow-auto">
       <Table aria-label="Table with messagse"
              selectionMode="single"
              shadow="none"
-             onRowAction={(key) => {handleRowSelect(key)}}>
+             onRowAction={(key) => {selectRow(key)}}>
         <TableHeader columns={columns}>
           {(column) =>
             <TableColumn key={column.key}
@@ -103,19 +34,24 @@ export default function MessageTable ({ messages }: Props) {
               {column.label}
             </TableColumn>}
         </TableHeader>
-        <TableBody items={messages}
+        <TableBody items={initialMessages}
                    emptyContent="No messages for this container">
           {(item) => (
             <TableRow key={item.id} className="cursor-pointer">
               {(columnKey) => (
                 <TableCell className={`${!item.dateRead &&
                 !isOutbox ? 'font-semibold' : ''}`}>
-                  {renderCell(item, columnKey as keyof MessageDto)}
+                  <MessageTableCell item={item} columnKey={columnKey as string}
+                                    isOutbox={isOutbox}
+                                    deleteMessage={deleteMessage}
+                                    isDeleting={isDeleting.loading &&
+                                      isDeleting.id === item.id}/>
                 </TableCell>
               )}
             </TableRow>
           )}
         </TableBody>
-      </Table></Card>
+      </Table>
+    </Card>
   )
 }
