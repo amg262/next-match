@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer components {
-  .vertical-center {
-    height: calc(100vh - 64px);
-  }
+    .vertical-center {
+        height: calc(100vh - 64px);
+    }
 }

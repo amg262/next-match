@@ -1,10 +1,11 @@
 import React from 'react'
-import { LoginForm } from '@/app/(auth)/login/LoginForm'
+import LoginForm from './LoginForm'
 
-export default function LoginPage () {
+export default function LoginPage() {
   return (
-    <div className="flex items-center justify-center vertical-center">
-      <LoginForm/>
+    <div className='flex items-center justify-center vertical-center'>
+      <LoginForm />
     </div>
+
   )
 }

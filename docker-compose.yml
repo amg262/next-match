@@ -3,5 +3,5 @@ services:
     image: postgres
     environment:
       - POSTGRES_PASSWORD=postgrespw
-    ports:
+    ports: 
       - 5432:5432

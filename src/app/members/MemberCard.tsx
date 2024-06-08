@@ -13,7 +13,7 @@ type Props = {
   likeIds: string[]
 }
 
-export function MemberCard ({ member, likeIds }: Props) {
+export default function MemberCard ({ member, likeIds }: Props) {
   const hasLiked = likeIds.includes(member.userId)
   const preventLinkAction = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -33,7 +33,7 @@ export function MemberCard ({ member, likeIds }: Props) {
         <div className="absolute top-3 right-3 z-30">
           <LikeButton targetId={member.userId} hasLiked={hasLiked}/>
         </div>
-        <div className='absolute top-2 left-3 z-30'>
+        <div className="absolute top-2 left-3 z-30">
           <PresenceDot member={member}/>
         </div>
       </div>
